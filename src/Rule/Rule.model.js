@@ -1,3 +1,4 @@
+import { Random } from '@woowacourse/mission-utils';
 import {
   isNotEmpty,
   isNotExceedLength,
@@ -20,6 +21,14 @@ class RuleModel {
     TRIAL_NUMBER_CAN_NOT_BE_EMPTY: '[ERROR] 시도 횟수는 공백일 수 없습니다.',
     TRIAL_NUMBER_SHOULD_BE_INTEGER: '[ERROR] 시도 횟수는 숫자여야 합니다.',
     TRIAL_NUMBER_SHOULD_BE_POSITIVE: '[ERROR] 시도 횟수는 0 보다 커야 합니다.',
+  });
+
+  static GAME_RULE = Object.freeze({
+    MOVE_FORWARD_CONDITION: {
+      RANGE_START: 0,
+      RANGE_END: 9,
+      CAN_MOVE_MIN_NUMBER: 4,
+    },
   });
 
   /**
@@ -90,6 +99,15 @@ class RuleModel {
       .with(isPositveNumberString, {
         message: RuleModel.ERROR_MESSAGE.TRIAL_NUMBER_SHOULD_BE_POSITIVE,
       });
+  }
+
+  canMoveForward() {
+    return (
+      Random.pickNumberInRange(
+        RuleModel.GAME_RULE.MOVE_FORWARD_CONDITION.RANGE_START,
+        RuleModel.GAME_RULE.MOVE_FORWARD_CONDITION.RANGE_END,
+      ) >= RuleModel.GAME_RULE.MOVE_FORWARD_CONDITION.CAN_MOVE_MIN_NUMBER
+    );
   }
 }
 

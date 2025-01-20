@@ -6,7 +6,7 @@ class RacingModel {
   /** @type {Array<CarModel>} */
   #cars;
 
-  /** @type {Number} */
+  /** @type {number} */
   #trialNumber;
 
   /** @type {RuleModel} */
@@ -41,6 +41,20 @@ class RacingModel {
   setTrialNumber(input) {
     this.#rule.validateTrialNumber(input);
     this.#trialNumber = input;
+  }
+
+  /**
+   *
+   * @param {CarModel} car
+   */
+  #canMoveForward(car) {
+    if (this.#rule.canMoveForward()) {
+      car.moveForward();
+    }
+  }
+
+  race() {
+    this.#cars.forEach((car) => this.#canMoveForward(car));
   }
 }
 
