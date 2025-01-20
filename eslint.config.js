@@ -25,6 +25,8 @@ export default [
     rules: {
       'import/extensions': ['error', 'ignorePackages'],
       'no-return-await': 'off',
+      'class-methods-use-this': 'off',
+      'max-classes-per-file': 'off',
     },
   },
   {

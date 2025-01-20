@@ -1,5 +1,3 @@
-// @ts-check
-
 import input from '../lib/view.js';
 
 class RacingView {
@@ -13,7 +11,7 @@ class RacingView {
    *
    * @returns {Promise<string>}
    */
-  static async inputCarNames() {
+  async inputCarNames() {
     return input(RacingView.QUERY.GET_CAR_NAMES);
   }
 
@@ -21,7 +19,7 @@ class RacingView {
    *
    * @returns {Promise<string>}
    */
-  static async inputTrialNumber() {
+  async inputTrialNumber() {
     return input(RacingView.QUERY.GET_TRIAL_NUMBER);
   }
 }
