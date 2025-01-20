@@ -1,4 +1,4 @@
-import { isNotExceedLength } from '../../src/lib/utils.js';
+import { isNotExceedLength, isNumericString } from '../../src/lib/utils.js';
 
 describe('utlis', () => {
   describe('isNotExceedLength', () => {
@@ -17,6 +17,22 @@ describe('utlis', () => {
       const result = isNotExceedLength(input, length);
 
       expect(result).toBe(false);
+    });
+  });
+  describe('isNumericString', () => {
+    it('숫자로 변경할 수 없는 문자열이 입력되면 false를 반환한다', () => {
+      const input = 'abc';
+
+      const result = isNumericString(input);
+
+      expect(result).toBe(false);
+    });
+    it('숫자로 변경될 수 있는 문자열이 입력되면 true를 반환한다', () => {
+      const input = '1';
+
+      const result = isNumericString(input);
+
+      expect(result).toBe(true);
     });
   });
 });

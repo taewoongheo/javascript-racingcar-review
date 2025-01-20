@@ -8,7 +8,7 @@ export function isNotEmpty(input) {
 }
 
 export function isNumericString(input) {
-  return true;
+  return !isNaN(input);
 }
 
 export function isPositveNumberString(input) {
