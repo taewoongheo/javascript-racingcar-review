@@ -1,4 +1,8 @@
-import { isNotExceedLength, isNumericString } from '../../src/lib/utils.js';
+import {
+  isNotExceedLength,
+  isNumericString,
+  isPositveNumberString,
+} from '../../src/lib/utils.js';
 
 describe('utlis', () => {
   describe('isNotExceedLength', () => {
@@ -31,6 +35,29 @@ describe('utlis', () => {
       const input = '1';
 
       const result = isNumericString(input);
+
+      expect(result).toBe(true);
+    });
+  });
+  describe('isPositiveNumberString', () => {
+    it('0보다 작은 문자열이 입력되면 false를 반환한다', () => {
+      const input = '-1';
+
+      const result = isPositveNumberString(input);
+
+      expect(result).toBe(false);
+    });
+    it('0보다 큰 문자열이 입력되면 true를 반환한다', () => {
+      const input = '1';
+
+      const result = isPositveNumberString(input);
+
+      expect(result).toBe(true);
+    });
+    it('0인 문자열이 입력되면 true를 반환한다', () => {
+      const input = '0';
+
+      const result = isPositveNumberString(input);
 
       expect(result).toBe(true);
     });

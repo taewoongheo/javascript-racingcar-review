@@ -12,5 +12,5 @@ export function isNumericString(input) {
 }
 
 export function isPositveNumberString(input) {
-  return true;
+  return Number(input) >= 0;
 }
