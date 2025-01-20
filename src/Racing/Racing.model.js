@@ -1,5 +1,10 @@
 import CarModel from '../Car/Car.model.js';
-import { isNotEmpty, isNotExceedLength } from '../lib/utils.js';
+import {
+  isNotEmpty,
+  isNotExceedLength,
+  isNumericString,
+  isPositveNumberString,
+} from '../lib/utils.js';
 import Validator from '../lib/Validator.js';
 
 class RacingModel {
@@ -10,29 +15,16 @@ class RacingModel {
   #trialNumber;
 
   static ERROR_MESSAGE = Object.freeze({
-    INPUT_CAN_NOT_BE_EMPTY: '[ERROR] 이름은 공백일 수 없습니다.',
+    CAR_NAMES_CAN_NOT_BE_EMPTY: '[ERROR] 이름은 공백일 수 없습니다.',
     INPUT_LENGTH_CAN_NOT_EXCEED_FIVE:
       '[ERROR] 이름은 5 자를 초과할 수 없습니다.',
+    TRIAL_NUMBER_CAN_NOT_BE_EMPTY: '[ERROR] 시도 횟수는 공백일 수 없습니다.',
+    TRIAL_NUMBER_SHOULD_BE_INTEGER: '[ERROR] 시도 횟수는 숫자여야 합니다.',
+    TRIAL_NUMBER_SHOULD_BE_POSITIVE: '[ERROR] 시도 횟수는 0 보다 커야 합니다.',
   });
 
-  /**
-   *
-   * @param {Array<string>} input
-   * @throws {Error}
-   */
-  #validateInput(input) {
-    input.forEach((name) => this.#validateEmptyName(name));
-  }
-
-  /**
-   *
-   * @param {string} input
-   * @throws {Error}
-   */
-  #validateEmptyName(input) {
-    new Validator().validate(input).with(isNotEmpty, {
-      message: RacingModel.ERROR_MESSAGE.INPUT_CAN_NOT_BE_EMPTY,
-    });
+  #parseCarNames(carNames) {
+    return carNames.split(',');
   }
 
   /**
@@ -40,8 +32,17 @@ class RacingModel {
    * @param {Array<string>} input
    * @throws {Error}
    */
-  #validateLengthNames(input) {
-    input.forEach((name) => this.#validateNameLength(name));
+  #validateEmpty(input) {
+    return input.every((name) => isNotEmpty(name));
+  }
+
+  /**
+   *
+   * @param {Array<string>} input
+   * @throws {Error}
+   */
+  #validateNamesLength(input) {
+    return input.every((name) => this.#isNotExceedLengthFive(name));
   }
 
   /**
@@ -58,21 +59,15 @@ class RacingModel {
    * @param {string} input
    * @throws {Error}
    */
-  #validateNameLength(input) {
-    new Validator().validate(input).with(this.#isNotExceedLengthFive, {
-      message: RacingModel.ERROR_MESSAGE.INPUT_LENGTH_CAN_NOT_EXCEED_FIVE,
-    });
-  }
-
-  /**
-   *
-   * @param {string} input
-   * @throws {Error}
-   */
-  #validateCars(input) {
-    const splitedCarNames = input.split(',');
-    this.#validateInput(splitedCarNames);
-    this.#validateLengthNames(splitedCarNames);
+  #validateCarNames(input) {
+    new Validator()
+      .validate(this.#parseCarNames(input))
+      .with(this.#validateEmpty, {
+        message: RacingModel.ERROR_MESSAGE.CAR_NAMES_CAN_NOT_BE_EMPTY,
+      })
+      .with(this.#validateNamesLength.bind(this), {
+        message: RacingModel.ERROR_MESSAGE.INPUT_LENGTH_CAN_NOT_EXCEED_FIVE,
+      });
   }
 
   /**
@@ -80,7 +75,7 @@ class RacingModel {
    * @param {string} input
    */
   setCars(input) {
-    this.#validateCars(input);
+    this.#validateCarNames(input);
     this.#cars = this.#createCars(input.split(','));
   }
 
@@ -98,8 +93,26 @@ class RacingModel {
    * @param {string} input
    */
   setTrialNumber(input) {
-    this.#validateInput(input.split(','));
+    this.#validateTrialNumber(input);
     this.#trialNumber = input;
+  }
+
+  /**
+   *
+   * @param {string} input
+   */
+  #validateTrialNumber(input) {
+    new Validator()
+      .validate(input)
+      .with(isNotEmpty, {
+        message: RacingModel.ERROR_MESSAGE.TRIAL_NUMBER_CAN_NOT_BE_EMPTY,
+      })
+      .with(isNumericString, {
+        message: RacingModel.ERROR_MESSAGE.TRIAL_NUMBER_SHOULD_BE_INTEGER,
+      })
+      .with(isPositveNumberString, {
+        message: RacingModel.ERROR_MESSAGE.TRIAL_NUMBER_SHOULD_BE_POSITIVE,
+      });
   }
 }
 
