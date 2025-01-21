@@ -12,8 +12,12 @@ class RacingModel {
   /** @type {RuleModel} */
   #rule;
 
+  /** @type {number} */
+  #round;
+
   constructor() {
     this.#rule = new RuleModel(new Validator());
+    this.#round = 0;
   }
 
   /**
@@ -40,7 +44,7 @@ class RacingModel {
    */
   setTrialNumber(input) {
     this.#rule.validateTrialNumber(input);
-    this.#trialNumber = input;
+    this.#trialNumber = Number(input);
   }
 
   /**
@@ -53,8 +57,25 @@ class RacingModel {
     }
   }
 
-  race() {
+  singleRace() {
     this.#cars.forEach((car) => this.#canMoveForward(car));
+    this.#increaseRound();
+  }
+
+  #increaseRound() {
+    this.#round += 1;
+  }
+
+  /**
+   *
+   * @returns {boolean}
+   */
+  isRacing() {
+    return this.#round !== this.#trialNumber;
+  }
+
+  getCarsDetail() {
+    return this.#cars.map((car) => car.getDetail());
   }
 }
 

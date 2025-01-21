@@ -12,12 +12,26 @@ class RacingController {
     this.#racingModel = racingModel;
     this.#racingView = racingView;
 
-    this.#input();
+    this.init();
+  }
+
+  async init() {
+    await this.#input();
+    this.#racing();
   }
 
   async #input() {
     this.#racingModel.setCars(await this.#racingView.inputCarNames());
     this.#racingModel.setTrialNumber(await this.#racingView.inputTrialNumber());
+  }
+
+  #racing() {
+    this.#racingView.raceStart();
+    while (this.#racingModel.isRacing()) {
+      this.#racingModel.singleRace();
+      this.#racingView.printRacing(this.#racingModel.getCarsDetail());
+      this.#racingView.newLine();
+    }
   }
 }
 

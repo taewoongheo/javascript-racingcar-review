@@ -17,6 +17,10 @@ class CarModel {
   moveForward() {
     this.#position += 1;
   }
+
+  getDetail() {
+    return { name: this.#name, position: this.#position };
+  }
 }
 
 export default CarModel;
