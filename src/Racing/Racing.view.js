@@ -40,6 +40,11 @@ class RacingView {
   raceStart() {
     output(`\n${RacingView.MESSAGE.RACING_START}`);
   }
+
+  printWinners(winners) {
+    const winnerStr = winners.reduce((acc, car) => `${car.name} ${acc}`, '');
+    output(`최종 우승자 : ${winnerStr}`);
+  }
 }
 
 export default RacingView;

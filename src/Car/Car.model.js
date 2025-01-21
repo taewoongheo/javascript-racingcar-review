@@ -21,6 +21,14 @@ class CarModel {
   getDetail() {
     return { name: this.#name, position: this.#position };
   }
+
+  get position() {
+    return this.#position;
+  }
+
+  get name() {
+    return this.#name;
+  }
 }
 
 export default CarModel;

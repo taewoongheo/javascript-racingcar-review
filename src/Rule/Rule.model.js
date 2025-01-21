@@ -109,6 +109,16 @@ class RuleModel {
       ) >= RuleModel.GAME_RULE.MOVE_FORWARD_CONDITION.CAN_MOVE_MIN_NUMBER
     );
   }
+
+  /**
+   *
+   * @param {Array<CarModel>} cars
+   * @returns {Array<CarModel>}
+   */
+  determineWinners(cars) {
+    const maxScore = cars.reduce((cur, car) => Math.max(cur, car.position), 0);
+    return cars.filter((car) => car.position === maxScore);
+  }
 }
 
 export default RuleModel;

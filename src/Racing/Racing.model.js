@@ -77,6 +77,15 @@ class RacingModel {
   getCarsDetail() {
     return this.#cars.map((car) => car.getDetail());
   }
+
+  /**
+   *
+   * @param {Array<CarModel>} cars
+   * @returns {Array<CarModel>}
+   */
+  determineWinners() {
+    return this.#rule.determineWinners(this.#cars);
+  }
 }
 
 export default RacingModel;

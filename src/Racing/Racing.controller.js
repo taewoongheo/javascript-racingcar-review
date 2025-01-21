@@ -18,6 +18,7 @@ class RacingController {
   async init() {
     await this.#input();
     this.#racing();
+    this.#displayGameResult();
   }
 
   async #input() {
@@ -32,6 +33,11 @@ class RacingController {
       this.#racingView.printRacing(this.#racingModel.getCarsDetail());
       this.#racingView.newLine();
     }
+  }
+
+  #displayGameResult() {
+    const winners = this.#racingModel.determineWinners();
+    this.#racingView.printWinners(winners);
   }
 }
 
